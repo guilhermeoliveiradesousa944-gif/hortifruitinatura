@@ -8,9 +8,20 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- *
- * A sample greetings controller to return greeting text
+ * 
+ * @RestController
+ * Esta anotação indica que a classe é um controlador REST, e que recebe uma requisiçãoe em HTTP (como o GET, POST, etc)
+ * e retorna um texto
+ * 
+ * Um controlador intercepta todas as requisições feitas ao sistema
+ * 
+ * @RequestMapping
+ * estou mapeando meu método para uma rota URL chamada value (value = "URL RAIZ /{nome}") e ainda estou passando 
+ * por parâmetro, um argumento chamado "name". A partir de então meu método se tornou um endpoint (um ponto de acesso);
+ * Meu endpoint responde a requisições do tipo get e rotorna "Hello + nome!"
+ * 
  */
+
 @RestController
 public class GreetingsController {
     /**
@@ -24,3 +35,5 @@ public class GreetingsController {
         return "Hello " + name + "!";
     }
 }
+
+ 
