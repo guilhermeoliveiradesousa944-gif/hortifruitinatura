@@ -6,9 +6,6 @@ public class Clientes {
     private String email;
     private String telefone;
     private String endereco;
-    public String getNome() {
-        return nome;
-    }
     //construtor
     public Clientes(String nome, String email, String telefone, String endereco) {
         this.nome = nome;
@@ -16,6 +13,11 @@ public class Clientes {
         this.telefone = telefone;
         this.endereco = endereco;
     }
+    
+    public String getNome() {
+        return nome;
+    }
+    
     // Gets e Sets
     public void setNome(String nome) {
         this.nome = nome;
