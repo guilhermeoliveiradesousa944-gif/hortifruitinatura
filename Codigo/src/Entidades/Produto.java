@@ -2,11 +2,11 @@ package Entidades;
 
 
 public class Produto {
-    private String nome;
+    //atributos
     private double preco;
     private int estoque;
-    private String validade;
-
+    private String validade, nome;
+    //construtor
     public Produto(String nome) {
         this.nome = nome;
     }
@@ -17,7 +17,7 @@ public class Produto {
         this.estoque = estoque;
         this.validade = validade;
     }
-
+    //gets e sets
     public String getNome() {
         return nome;
     }
@@ -50,7 +50,9 @@ public class Produto {
         this.validade = validade;
     }
 
-    // Método para mostrar os dados do produto
+    public void EditarProduto(){
+
+    }
     public void mostrarproduto() {
         System.out.println("===== Produto =====");
         System.out.println("Nome: " + nome);
