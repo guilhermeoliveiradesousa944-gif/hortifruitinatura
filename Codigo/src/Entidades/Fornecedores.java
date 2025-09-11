@@ -5,9 +5,7 @@ import java.util.List;
 
 public class Fornecedores {
        // Atributos
-    private String nome;
-    private String cnpj;
-    private String telefone;
+    private String cnpj, nome, telefone;
     private List<Produto> produtosFornecidos = new ArrayList<>();
 
     // Construtor
