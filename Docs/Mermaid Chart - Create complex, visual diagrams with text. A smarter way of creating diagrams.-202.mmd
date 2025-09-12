@@ -1,0 +1,38 @@
+classDiagram
+    class Produto {
+        - id : int
+        - nome : string
+        - descricao : string
+        - preco : double
+        - categoria : string
+        - estoque : int
+    }
+
+    class CadastrarProduto {
+        - usuarioId : int
+        + validarDados(produto : Produto) : bool
+        + salvar(produto : Produto) : bool
+    }
+
+    class EditarProduto {
+        - usuarioId : int
+        + carregarDados(id : int) : Produto
+        + atualizar(produto : Produto) : bool
+    }
+
+    class ConsultarProduto {
+        + buscarPorId(id : int) : Produto
+        + buscarPorNome(nome : string) : List<Produto>
+        + listarTodos() : List<Produto>
+    }
+
+    class DeletarProduto {
+        - usuarioId : int
+        + confirmarExclusao(id : int) : bool
+        + remover(id : int) : bool
+    }
+
+    Produto <-- CadastrarProduto : cria >
+    Produto <-- EditarProduto : altera >
+    Produto <-- ConsultarProduto : consulta >
+    Produto <-- DeletarProduto : exclui >
