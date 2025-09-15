@@ -41,7 +41,7 @@ public class ProdutoController {
     	
     }
     
-   @PostMapping(value = "buscarPorId") 
+   @GetMapping(value = "buscarPorId") 
    @ResponseBody
    public ResponseEntity<?> buscarPorId(@RequestParam Long id){
     	
@@ -54,7 +54,7 @@ public class ProdutoController {
     	
     }
    
-   @PostMapping(value = "buscarPeloNome")
+   @GetMapping(value = "buscarPeloNome")
    @ResponseBody
    public ResponseEntity<List<ProdutoModel>> buscarPorNome(@RequestParam (name="nome")String nome){
 	   
