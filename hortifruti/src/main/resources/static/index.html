@@ -24,14 +24,14 @@
 		
 		<!-- Formulário de Cadastro -->
   <form id="formProduto" class="mb-4">
-    <div class="row">
-      <div class="col"> 
+    <div class="row g-3 mb-3">
+      <div class="col-12 col-md-2"> 
 			<input type="text" class="form-control" id="id" readonly="readonly" placeholder="ID automático">
 	  </div>
-      <div class="col">
+      <div class="col-12 col-md-2">
         <input type="text" id="nome" class="form-control" placeholder="Nome" required>
       </div>
-      <div class="col">
+      <div class="col-12 col-md-2">
         <select id="tipo" class="form-select" required>
           <option value="">Selecione o tipo</option>
           <option value="Fruta">Fruta</option>
@@ -39,22 +39,23 @@
           <option value="Legume">Legume</option>
         </select>
       </div>
-      <div class="col">
+      <div class="col-12 col-md-2">
         <input type="number" id="preco" class="form-control" placeholder="Preço" required>
       </div>
-      <div class="col">
+      <div class="col-12 col-md-2">
         <input type="number" id="quantidade" class="form-control" placeholder="Quantidade" required>
       </div>
       <div class="row mt-3">
-      	<div class="col-md-3">
-      		<button type="button" class="btn btn-primary" onclick="salvarProduto()">Cadastrar</button>
+      	<div class="col-12 d-grid gap-2 d-md-flex justify-content-md-start">
+      		<button type="button" class="btn btn-primary" onclick="salvarProduto()">Salvar</button>
       		<button type="button" class="btn btn-secondary" onclick="document.getElementById('formProduto').reset();">Novo</button><!-- esse reset limpa os campos do formulário -->
       		<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalPesquisar">Pesquisar</button><!-- chama a tela modal -->
+      		<button type="button" class="btn btn-danger" onclick="botaoDeletarTelaInicial()">Deletar</button>
       	</div>
       	
 		<!-- TELA MODAL -->
 	<div class="modal fade" id="modalPesquisar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-dialog-centered modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">Buscar por Produto</h5>
@@ -65,8 +66,10 @@
 						<div class="mb-3">
 							<label for="nomeBuscar" class="col-form-label">Nome:</label> 
 							<input type="text" class="form-control" id="nomeBuscar">
+						</div> 
+						<div class="input-group mb-3">
+							<button type="button" class="btn btn-success" onclick="buscarUsuario()">Buscar</button>
 						</div>
-						<button type="button" class="btn btn-success" onclick="buscarUsuario()">Buscar</button>
 					</form>
 
 					<div id="divTabelaDados">
@@ -85,10 +88,11 @@
   </form>
 
 	<!-- Tabela de Produtos -->
-	<div id="divTabelaDados">
+	<div id="divTabelaDados" class="table-responsive" style="max-height: 60vh; overflow-y: auto;">
 		<table class="table table-striped" id="tabelaDados">
-			<thead>
+			<thead class="table-light">
 				<tr>
+					<th>ID</th>
 					<th>Nome</th>
 					<th>Tipo</th>
 					<th>Preço</th>
@@ -162,6 +166,7 @@
 			success : function(response) {//esse response, é o retorno do meu endpoint "salvar"
 				$("#id").val(response.id);//"#id" é o id do meu input ID - val(com este campo preenchido) escreve o valor do parâmetro na tela
 				alert("Dados cadastrados com sucesso!");
+				carregarTabela(); 
 			}
 		}).fail(
 				function(xhr, status, errorThrow) {//xhr: traz detalhes da resposta; status: status http; errorthrow: mensagem de erro
@@ -194,26 +199,113 @@
 					$("#tabelaDados > tbody > tr").remove();//entra na tebela, depois na linha, e limpa os dados lá estiverem sendo exibidos 
 					$("#modalPesquisar").modal("hide");//esconde o modal quando eu clico no botão VER
 					
-					for (var i = 0; i < response.length; i++) {//como o endpoint "buscarPorNome" retorna uma lista, devo percorre-la
-						$("#tabelaDados > tbody")
-								.append(//entro no corpo da tabela escrevo linhas e colunas
-										"<tr id='idLinha'><td>"// na linha...
-												+ response[i].id//na 1° coluna: coloco o id do usuário
-												+ "</td><td>"
-												+ response[i].nome//na 2° coluna: coloco o nome do usuário
-												+ "</td><td><button type='button' class='btn btn-primary' onclick='colocarEmEdicao("
-												+ response[i].id//na 3° coluna: coloco o botão VER (que chama a função colocarEmEdicao(id) - já passando o "id" contido no "response" na posição "i" - response[i].id)
-												+ ")'>Ver</button></td><td><button type='button' class='btn btn-danger' onclick='deletarUsuario("
-												+ response[i].id//na 4° coluna: coloco o botão DELETAR (que chama a função deletarUsuario(id) - já passando o "id" contido no "response" na posição "i" - response[i].id)
-												+ ")'>Deletar</button></td></tr>");
-						//na linha acima, tenho 4 colunas: ID, Nome, botão VER, botão DELETAR
+					for (var i = 0; i < response.length; i++) {
+					    $("#tabelaDados > tbody").append(
+					        "<tr id='idLinha'>" +
+					        	"<td>" + response[i].id + "</td>" +
+					            "<td>" + response[i].nome + "</td>" +
+					            "<td>" + response[i].categoria + "</td>" +
+					            "<td>" + response[i].preco + "</td>" +
+					            "<td>" + response[i].unidade + "</td>" +
+					            "<td>" +
+					                "<button type='button' class='btn btn-primary btn-sm me-2' onclick='colocarEmEdicao(" + response[i].id + ")'>Ver</button>" +
+					                "<button type='button' class='btn btn-danger btn-sm' onclick='deletarUsuario(" + response[i].id + ")'>Deletar</button>" +
+					            "</td>" +
+					        "</tr>"
+					    );
 					}
+
 				}
 			}).fail(
 			function(xhr, status, errorThrow) {//xhr: traz detalhes da resposta; status: status http; errorthrow: mensagem de erro
 				alert("Erro ao buscar produto pelo nome!: "
 						+ xhr.responseText);
 			});
+		}
+
+	}
+	
+	function colocarEmEdicao(id) {//chamado pelo botão VER
+
+		$.ajax({ //chamada AJAX com jQuery
+			method : "GET", //por se tratar do método buscarPeloId, que é um do tipo GET
+			url : "buscarPorId", //mapeamento do meu endpoint
+			data : "id=" + id, //"id" é o nome do parâmetro do endponint "buscarPeloId" - id é o valor do parâmtro da função js
+			//como é um GET, os parâmtros não precisam ser convertidos para json, mas passão como query string na url;
+			success : function(response) {//esse response, é o retorno do meu endpoint "salvar"
+				$("#id").val(response.id); //"#id" é o id do meu input ID - val(com este campo preenchido) escreve o valor do parâmetro na tela  
+				$("#nome").val(response.nome); //val() - se estiver vazio, pega os valores dos campos da tela; porém se estiver carregando um parâmtro com ele, acaba por inserir seu valor nos campos da tela
+				$("#tipo").val(response.categoria);
+				$("#preco").val(response.preco);
+				$("#quantidade").val(response.unidade); 
+
+			}
+
+		}).fail(function(xhr, status, errorThrow) {//xhr: traz detalhes da resposta; status: status http; errorthrow: mensagem de erro
+			alert("Erro ao buscar usuário pelo id!" + xhr.responseText);
+		});
+	}
+	
+	function carregarTabela() {
+		  $.ajax({
+		    method: "GET",
+		    url: "listar",
+		    success: function(response) {
+		      let tbody = $("#tabelaDados tbody");
+		      tbody.empty(); // limpa antes
+		      response.forEach(p => {
+		        tbody.append(`
+		          <tr>
+		            <td>${p.id}</td>
+		            <td>${p.nome}</td>
+		            <td>${p.categoria}</td>
+		            <td>${p.preco}</td>
+		            <td>${p.unidade}</td>
+		            <td>
+		              <button class="btn btn-primary btn-sm" onclick="colocarEmEdicao(${p.id})">Ver</button>
+		              <button class="btn btn-danger btn-sm" onclick="deletarUsuario(${p.id})">Deletar</button>
+		            </td>
+		          </tr>
+		        `);
+		      });
+		    }
+		  });
+		}
+	
+	function deletarUsuario(id) {//chamado pelo botão DELETAR da tela modal
+
+		if (confirm("Deseja mesmo deletar?")) {//exibe uma confirmação na tela 
+
+			$.ajax({ //chamada AJAX com jQuery
+				method : "DELETE", //por se tratar do método "deletar"", que é um do tipo DELETE
+				url : "deletar", //mapeamento do meu endpoint
+				data : "id=" + id, //"id" é o nome do parâmetro do endponint "DELETAR" - id é o valor do parâmtro da função js
+				//como é um GET, os parâmtros não precisam ser convertidos para json, mas passão como query string na url;
+				success : function(response) {//esse response, é o retorno do meu endpoint "salvar"
+					alert(response);//exibe o response/retorno na tela - neste caso, meu retorno é uma String
+
+					$('#idLinha').remove();//remove a linha que contém os dados do usuário recém deletado impressos na tela
+					
+				}
+
+			}).fail(
+					function(xhr, status, errorThrow) {//xhr: traz detalhes da resposta; status: status http; errorthrow: mensagem de erro
+						alert("Erro ao deletar usuário pelo ID!"
+								+ xhr.responseText);
+					});
+
+		}
+
+	}
+	
+	function botaoDeletarTelaInicial() {//chamado pelo botão DELETAR da tela inicial
+		var id = $("#id").val();//"#id" é o id do meu input ID - val() resgata o valor contido dentro deste input
+
+		if (id != null && id.trim() != '') {//verifica se o id é diferente de nulo e se não está vazio
+			deletarUsuario(id);//chamo a função "deletarUsuario(id)" para deletar o usuário para min 
+			document.getElementById('formProduto').reset();//limpa os inputs do formulário
+		} else {
+			alert("Não há nenhum usuário a ser deletado!");
 		}
 
 	}
