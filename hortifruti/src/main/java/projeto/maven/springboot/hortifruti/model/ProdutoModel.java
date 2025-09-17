@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @Entity
 @SequenceGenerator(name="seq_produto", sequenceName="seq_produto", allocationSize = 1, initialValue = 1)/*oame lógico do gerador; nome do gerador no banco de dados; aloca de 1 em 1; primeiro valor da sequência*/
 @Table(name = "produto_model")//indica para qual tabela no banco de dados esta classe entidade está mapeanda (no caso, ela corresponde a tabela "produto_model" no banco de dados)
-public class ProdutoModel implements Serializable{
+public class ProdutoModel implements Serializable /*padrão do java*/{
 	
 	private static final long serialVersionUID = 1L; //padrão do java
 
