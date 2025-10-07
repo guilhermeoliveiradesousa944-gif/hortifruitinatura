@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import projeto.maven.springboot.hortifruti.model.ProdutoModel;
-import projeto.maven.springboot.hortifruti.service.ProdutoService;
+import projeto.maven.springboot.hortifruti.model.UsuarioModel;
+import projeto.maven.springboot.hortifruti.service.UsuarioService;
 
 
 /**
@@ -43,31 +43,31 @@ import projeto.maven.springboot.hortifruti.service.ProdutoService;
  */
 
 @RestController
-@RequestMapping("/produto")//Define qual caminho (URL) será tratado por esta classe controladora ou método. 
-public class ProdutoController {
+@RequestMapping("/usuario")//Define qual caminho (URL) será tratado por esta classe controladora ou método. 
+public class UsuarioController {
     
     @Autowired
-    ProdutoService produtoService;
+    UsuarioService usuarioService;
     
     //endpoint para listar produtos (GET - faz buscas)
     @GetMapping(value = "listar")/*faz a mesma coisa do @RequestMapping, porém já indica que o método irá responder a requisições HTTP GET*/
     @ResponseBody //retorna os dados no corpo da resposta (sem ser na URL - o corpo é como se fosse uma caixinha com os dados dentro) e geralmente em formato JSON
-    public ResponseEntity<List<ProdutoModel>> listar(){
+    public ResponseEntity<List<UsuarioModel>> listar(){
     	
-    	List<ProdutoModel> produtoModel = produtoService.listarProduto();//chamo a classe Service e seu método
+    	List<UsuarioModel> usuarioModel = usuarioService.listarUsuario();//chamo a classe Service e seu método
     	
-    	return new ResponseEntity<List<ProdutoModel>>(produtoModel, HttpStatus.OK);//retorna a lista de objetos (isto é um fato), porém o @ResponseBody traduz para json antes de enviar no corpo da resposta
+    	return new ResponseEntity<List<UsuarioModel>>(usuarioModel, HttpStatus.OK);//retorna a lista de objetos (isto é um fato), porém o @ResponseBody traduz para json antes de enviar no corpo da resposta
     	//lista de produtos são o corpo da resposta (os dados); HttpStatus é o status HTTP, que é 200 (ok)
     }
     
   //endpoint para salvar produtos (POST - cria novos recursos e os dados vão no corpo da requisição)
     @PostMapping(value = "salvar")
     @ResponseBody//retorna os dados no corpo da resposta (sem ser na URL - o corpo é como se fosse uma caixinha com os dados dentro) e geralmente em formato JSON
-    public ResponseEntity<ProdutoModel> salvar(@RequestBody ProdutoModel produtoModel) {
+    public ResponseEntity<UsuarioModel> salvar(@RequestBody UsuarioModel usuarioModel) {
     	
-    	ProdutoModel produto = produtoService.salvarProduto(produtoModel);//chamo a classe Service e seu método
+    	UsuarioModel usuario = usuarioService.salvarUsuario(usuarioModel);//chamo a classe Service e seu método
     	
-    	return new ResponseEntity<ProdutoModel>(produto, HttpStatus.CREATED);//retorna um objeto (isto é um fato), porém o @ResponseBody traduz para json antes de enviar no corpo da resposta
+    	return new ResponseEntity<UsuarioModel>(usuario, HttpStatus.CREATED);//retorna um objeto (isto é um fato), porém o @ResponseBody traduz para json antes de enviar no corpo da resposta
    	 	//produto é  o corpo da resposta; HttpStatus é o status HTTP, que é 201 (created)
     }
     
@@ -78,8 +78,8 @@ public class ProdutoController {
 	   	/*O @RequestBody poderia ser usado neste caso, mas eu teria de substituir "Long id" por um objeto, e a partir deste objeto resgatar o id*/
 	   
 	   try {//vou validar a operação de buscarPorId; se der certo, retorno o objeto e o status http, mas se der errado, retorno a mensagem de erro que passei como parâmetro para a exceção
-		   ProdutoModel produtoModel = produtoService.buscarProdutoPorId(id);//chamo a classe Service e seu método
-		   return ResponseEntity.status(HttpStatus.OK).body(produtoModel);//retorna mue objeto no formato json, mais o status HTTP 200 (ok)
+		   UsuarioModel usuarioModel = usuarioService.buscarUsuarioPorId(id);//chamo a classe Service e seu método
+		   return ResponseEntity.status(HttpStatus.OK).body(usuarioModel);//retorna mue objeto no formato json, mais o status HTTP 200 (ok)
 		   //retorno o objeto e o status http, como nos métodos anteriores. porém de um jeito diferente.
 	   }catch(RuntimeException e) {
 		   return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());//retorna o status http 400 - bad_request; e retorna também o body, onde coloquei a mensagem de erro que passei como parâmetro para a exceção
@@ -90,13 +90,13 @@ public class ProdutoController {
    //endpoint para listar produtos pelo nome (GET - faz buscas)
    @GetMapping(value = "buscarPeloNome")
    @ResponseBody //retorna os dados no corpo da resposta (sem ser na URL - o corpo é como se fosse uma caixinha com os dados dentro) e geralmente em formato JSON 
-   public ResponseEntity<List<ProdutoModel>> buscarPorNome(@RequestParam (name="nome")String nome){//@RequestParam recebe parâmetros que vêm na URL ou formulários que vêm no corpo de requisição
+   public ResponseEntity<List<UsuarioModel>> buscarPorNome(@RequestParam (name="nome")String nome){//@RequestParam recebe parâmetros que vêm na URL ou formulários que vêm no corpo de requisição
 	   //(name = "nome") é para reforçar a informação
 	   /*O @RequestBody poderia ser usado neste caso, mas eu teria de substituir "string nome" por um objeto, e a partir deste objeto resgatar o nome*/
 	   
-	   List<ProdutoModel> produtoModel = produtoService.buscarProdutoPorNome(nome);//chamo a classe Service e seu método
+	   List<UsuarioModel> usuarioModel = usuarioService.buscarUsuarioPorNome(nome);//chamo a classe Service e seu método
 	   
-	   return ResponseEntity.ok(produtoModel);
+	   return ResponseEntity.ok(usuarioModel);
 	 //retorno a lista de objetos e o status http, como nos métodos anteriores. porém de um jeito diferente.
    }
    
@@ -108,8 +108,8 @@ public class ProdutoController {
 	   /*O @RequestBody poderia ser usado neste caso, mas eu teria de substituir "Long id" por um objeto, e a partir deste objeto resgatar o id*/
 	   
 	   try {
-		   produtoService.deletarProduto(id);//chamo a classe Service e seu método
-		   return ResponseEntity.ok("Produto deletado com sucesso!"); //retorno um String e o status http, como nos métodos anteriores. porém de um jeito diferente.
+		   usuarioService.deletarProduto(id);//chamo a classe Service e seu método
+		   return ResponseEntity.ok("Usuário deletado com sucesso!"); //retorno um String e o status http, como nos métodos anteriores. porém de um jeito diferente.
 	   }catch(RuntimeException e) {
 		   return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());//retorna o status http 404 - not found; e retorna também o body, onde coloquei a mensagem de erro que passei como parâmetro para a exceção
 	   }

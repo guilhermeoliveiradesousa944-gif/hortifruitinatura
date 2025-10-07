@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<!-- Bootstrap CSS -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+
+</head>
+<body class="container mt-5">
+
+	<a href="index.html" class="btn btn-outline-secondary mb-3">← Voltar</a><!-- a tag <a> cria um link navegável -->
+
+	<h1 class="mb-4">CADASTRO DE PRODUTOS:</h1>
+
+	<!-- Bootstrap JS -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+		crossorigin="anonymous"></script>
+
+
+	<!-- TODAS AS CLASSES BOOTSTRAP DESTE INDEX SÃO CLASSES RESPONSIVAS -->
+
+	<!-- div é um conteiner
+    - label descreve o campo input
+    - input é um campo de entrada
+    - o for vincula o label ao campo de entreda com mesmo nome (id) -->
+
+	<!-- Formulário de Cadastro -->
+	<form id="formProduto" class="mb-2 mb-md-4 mb-lg-5">
+		<div class="row g-3 mb-2 mb-md-3 mb-lg-4">
+			<div class="col-12 col-sm-6 col-md-2 col-lg-2">
+				<input type="text" class="form-control" id="id" readonly="readonly"
+					placeholder="ID automático">
+			</div>
+			<div class="col-12 col-sm-6 col-md-2 col-lg-3">
+				<input type="text" id="nome" class="form-control" placeholder="Nome"
+					required>
+			</div>
+			<div class="col-12 col-sm-6 col-md-2 col-lg-2">
+				<select id="tipo" class="form-select" required>
+					<option value="">Selecione o tipo</option>
+					<option value="Fruta">Fruta</option>
+					<option value="Verdura">Verdura</option>
+					<option value="Legume">Legume</option>
+				</select>
+			</div>
+			<div class="col-12 col-sm-6 col-md-2 col-lg-2">
+				<input type="number" id="preco" class="form-control"
+					placeholder="Preço" min="0" required>
+			</div>
+			<div class="col-12 col-sm-6 col-md-2 col-lg-2">
+				<input type="number" id="quantidade" class="form-control"
+					placeholder="Quantidade" min="0" required>
+			</div>
+			<div class="row mt-2 mt-md-3">
+				<div class="col-12 d-grid gap-2 d-md-flex justify-content-md-start">
+					<button type="button" class="btn btn-primary"
+						onclick="salvarProduto()">Salvar</button>
+					<button type="button" class="btn btn-secondary"
+						onclick="document.getElementById('formProduto').reset();">Novo</button>
+					<!-- esse reset limpa os campos do formulário -->
+					<button type="button" class="btn btn-success"
+						data-bs-toggle="modal" data-bs-target="#modalPesquisar">Pesquisar</button>
+					<!-- chama a tela modal -->
+					<button type="button" class="btn btn-danger"
+						onclick="botaoDeletarTelaInicial()">Deletar</button>
+				</div>
+
+				<!-- TELA MODAL -->
+				<div class="modal fade" id="modalPesquisar" tabindex="-1"
+					aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Buscar por
+									Produto</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"
+									aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<form>
+									<div class="mb-2 mb-md-3">
+										<label for="nomeBuscar" class="col-form-label">Nome:</label> <input
+											type="text" class="form-control" id="nomeBuscar">
+									</div>
+									<div class="d-grid d-md-flex justify-content-md-start mb-2 mb-md-3">
+										<button type="button" class="btn btn-success"
+											onclick="buscarUsuario()">Buscar</button>
+									</div>
+								</form>
+
+								<div id="divTabelaDados"></div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-bs-dismiss="modal">Fechar</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</form>
+
+	<!-- Tabela de Produtos -->
+	<div id="divTabelaDados" class="table-responsive mt-3 mt-md-4"
+		style="max-height: 60vh; overflow-y: auto;">
+		<table class="table table-striped" id="tabelaDados">
+			<thead class="table-light">
+				<tr>
+					<th>ID</th>
+					<th>Nome</th>
+					<th>Tipo</th>
+					<th>Preço</th>
+					<th>Quantidade</th>
+					<th>Ações</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- Linhas serão adicionadas dinamicamente -->
+			</tbody>
+		</table>
+	</div>
+
+
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+		crossorigin="anonymous"></script>
+	<!-- jQuery me permite escrever comandos em javascript com menos código -->
+
+	<script type="text/javascript">
+	
+	function salvarProduto() { //acionado pelo botão SALVAR
+
+		var id = $("#id").val(); //"#id" é o id do meu input ID - val() resgata o valor contido dentro deste input
+		var nome = $("#nome").val(); //"#nome" é o id do meu input NOME - val() resgata o valor contido dentro deste input
+		var tipo = $("#tipo").val(); //"#tipo" é o id do meu input TIPO - val() resgata o valor contido dentro deste input
+		var preco = $("#preco").val(); //"#preco" é o id do meu input PRECO - val() resgata o valor contido dentro deste input
+		var quantidade = $("#quantidade").val(); //"#quantidade" é o id do meu input QUANTIDADE - val() resgata o valor contido dentro deste input
+		
+		
+		if (nome == null || nome.trim() == '') {//validação para verificar se o nome está nulo ou se está vazio
+			$("#nome").focus();//foca no campo
+			alert("Informe o nome do produto!");
+			return;
+		}
+
+		if (tipo == null || tipo.trim() == '') {//validação para verificar se o tipo está nula ou se está vazio
+			$("#tipo").focus();//foca no campo
+			alert("Informe o tipo do produto!");
+			return;
+		}
+		
+		if (preco == null || preco.trim() == '') {//validação para verificar se preço está nula ou se está vazio
+			$("#preco").focus();//foca no campo
+			alert("Informe o preço do produto!");
+			return;
+		}
+		
+		if (quantidade == null || quantidade.trim() == '') {//validação para verificar se a quantidade está nula ou se está vazio
+			$("#quantidade").focus();//foca no campo
+			alert("Informe a quantidade do produto!");
+			return;
+		}
+		
+
+		/*AJAX é uma técnica que permite que uma página web se comunique com o servidor, em segundo plano, e por isso 
+		a página não recarrega, e as informações chegam na mesma*/
+		//ajax é uma receita de bolo:
+		$.ajax({ //chamada AJAX com jQuery
+			method : "POST", //por se tratar do endpoint salvar, que é um do tipo POST
+			url : "produto/salvar", //mapeamento do meu endpoint
+			data : JSON.stringify({//converte os dados de JS para JSON, para serem enviados no corpo requisição feita ao endpoint 
+				id : id,//1 -parâmtros do objeto : 2 - valor do formulário
+				nome : nome,
+				categoria : tipo,
+				preco : preco,
+				unidade : quantidade
+			}),
+			contentType : "application/json; charset=utf-8",//tipo dos dados
+			success : function(response) {//esse response, é o retorno do meu endpoint "salvar"
+				$("#id").val(response.id);//"#id" é o id do meu input ID - val(com este campo preenchido) escreve o valor do parâmetro na tela
+				alert("Dados cadastrados com sucesso!"); 
+			}
+		}).fail(
+				function(xhr, status, errorThrow) {//xhr: traz detalhes da resposta; status: status http; errorthrow: mensagem de erro
+					alert("Erro! Não conseguimos salvar os dados: "
+							+ xhr.responseText);
+				});
+
+		/*O objetivo final é que, ao clicar no botão "salvar", este chame uma função JS, que possui um ajax, que irá capturar os dados 
+		do formulário, depois irá convertê-los para json, para então os enviar, no corpo da requisição, para o endpoint "salvar"; 
+		este por sua vez, recebe o json, converte-o para um objeto, em seguida conecta-se ao banco de dados e salva aquele objeto;
+		por último, meu endpoint retorna a este - que antes será traduzido para json pelo @ResponseBody, para o ajax, no parâmetro 
+		"response" do método "function()"; e será este mesmo ajax, o responsável por colocar os dados na tela. 
+		*/ 
+
+	}
+	
+	function buscarUsuario() {//acionado pelo botão BUSCAR da tela modal
+		
+		var nome = $("#nomeBuscar").val();//"#nomeBuscar" é o id do meu input NOME da tela modal - val() resgata o valor contido dentro deste input
+		
+		if (nome != null && nome.trim() != '') {//validação para verificar se o nome está nulo ou se está vazio
+			
+		$.ajax(	
+			{ //chamada AJAX com jQuery
+				method : "GET", //por se tratar do endpoint buscarPeloNome, que é um do tipo GET
+				url : "produto/buscarPeloNome", //mapeamento do meu endpoint
+				data : "nome=" + nome,// "nome" é o nome do parâmetro do endponint "buscarPeloNome" - nome é o valor da variável js 
+				//como é um GET, os parâmtros não precisam ser convertidos para json, mas passão como query string na url;
+				success : function(response) {//se der certo, será enviada a resposta
+					$("#tabelaDados > tbody > tr").remove();//entra na tebela, depois na linha, e limpa os dados lá estiverem sendo exibidos 
+					$("#modalPesquisar").modal("hide");//esconde o modal quando eu clico no botão BUSCAR
+					
+					for (var i = 0; i < response.length; i++) {//como o endpoint "buscarPeloNome" retorna uma lista, devo percorre-la
+					    $("#tabelaDados > tbody").append(//entro no corpo da tabela e escrevo linhas e colunas
+					        "<tr id='idLinha'>" + //na linha...
+					        	"<td>" + response[i].id + "</td>" + //na 1° coluna: coloco o id do produto
+					            "<td>" + response[i].nome + "</td>" + //na 2° coluna: coloco o nome do produto
+					            "<td>" + response[i].categoria + "</td>" + //na 3° coluna: coloco a categoria do produto
+					            "<td>" + response[i].preco + "</td>" + //na 4° coluna: coloco o preco do produto
+					            "<td>" + response[i].unidade + "</td>" + //na 5° coluna: coloco a unidade do produto
+					            "<td>" +
+					                "<button type='button' class='btn btn-primary btn-sm me-2' onclick='colocarEmEdicao(" + response[i].id + ")'>Ver</button>" + //na 6° coluna: coloco o botão VER
+					                "<button type='button' class='btn btn-danger btn-sm' onclick='deletarProduto(" + response[i].id + ")'>Deletar</button>" + //também na 6° coluna: coloco o botão DELETAR
+					            "</td>" +
+					        "</tr>"
+					    );
+					}
+
+				}
+			}).fail(
+			function(xhr, status, errorThrow) {//xhr: traz detalhes da resposta; status: status http; errorthrow: mensagem de erro
+				alert("Erro ao buscar produto pelo nome!: "
+						+ xhr.responseText);
+			});
+		}
+
+	}
+	
+	function colocarEmEdicao(id) {//chamado pelo botão VER
+
+		$.ajax({ //chamada AJAX com jQuery
+			method : "GET", //por se tratar do método buscarPeloId, que é um do tipo GET
+			url : "produto/buscarPorId", //mapeamento do meu endpoint
+			data : "id=" + id, //"id" é o nome do parâmetro do endponint "buscarPeloId" - id é o valor do parâmtro da função js
+			//como é um GET, os parâmtros não precisam ser convertidos para json, mas passão como query string na url;
+			success : function(response) {//esse response, é o retorno do meu endpoint "salvar"
+				$("#id").val(response.id); //"#id" é o id do meu input ID - val(com este campo preenchido) escreve o valor do parâmetro na tela  
+				$("#nome").val(response.nome); //val() - se estiver vazio, pega os valores dos campos da tela; porém se estiver carregando um parâmtro com ele, acaba por inserir seu valor nos campos da tela
+				$("#tipo").val(response.categoria);
+				$("#preco").val(response.preco);
+				$("#quantidade").val(response.unidade); 
+
+			}
+
+		}).fail(function(xhr, status, errorThrow) {//xhr: traz detalhes da resposta; status: status http; errorthrow: mensagem de erro
+			alert("Erro ao buscar produto pelo id!" + xhr.responseText);
+		});
+	}
+	
+	function deletarProduto(id) {//chamado pelo botão DELETAR da tela modal
+
+		if (confirm("Deseja mesmo deletar?")) {//exibe uma confirmação na tela 
+
+			$.ajax({ //chamada AJAX com jQuery
+				method : "DELETE", //por se tratar do método "deletar"", que é um do tipo DELETE
+				url : "produto/deletar", //mapeamento do meu endpoint
+				data : "id=" + id, //"id" é o nome do parâmetro do endponint "DELETAR" - id é o valor do parâmtro da função js
+				//como é um GET, os parâmtros não precisam ser convertidos para json, mas passão como query string na url;
+				success : function(response) {//esse response, é o retorno do meu endpoint "salvar"
+					alert(response);//exibe o response/retorno na tela - neste caso, meu retorno é uma String
+
+					$('#idLinha').remove();//remove a linha que contém os dados do usuário recém deletado impressos na tela
+					
+				}
+
+			}).fail(
+					function(xhr, status, errorThrow) {//xhr: traz detalhes da resposta; status: status http; errorthrow: mensagem de erro
+						alert("Erro ao deletar usuário pelo ID!"
+								+ xhr.responseText);
+					});
+
+		}
+
+	}
+	
+	function botaoDeletarTelaInicial() {//chamado pelo botão DELETAR da tela inicial
+		var id = $("#id").val();//"#id" é o id do meu input ID - val() resgata o valor contido dentro deste input
+
+		if (id != null && id.trim() != '') {//verifica se o id é diferente de nulo e se não está vazio
+			deletarUsuario(id);//chamo a função "deletarUsuario(id)" para deletar o usuário para min 
+			document.getElementById('formProduto').reset();//limpa os inputs do formulário
+		} else {
+			alert("Não há nenhum produto a ser deletado!");
+		}
+
+	}
+	
+	</script>
+
+</body>
+</html>

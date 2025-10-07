@@ -3,8 +3,8 @@ package projeto.maven.springboot.hortifruti.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import projeto.maven.springboot.hortifruti.model.ProdutoModel;
-import projeto.maven.springboot.hortifruti.repository.ProdutoRepository;
+import projeto.maven.springboot.hortifruti.model.UsuarioModel;
+import projeto.maven.springboot.hortifruti.repository.UsuarioRepository;
 
 /**
  * 
@@ -15,57 +15,57 @@ import projeto.maven.springboot.hortifruti.repository.ProdutoRepository;
  * */
 
 @Service
-public class ProdutoService {
+public class UsuarioService {
 	
 	@Autowired
-	ProdutoRepository produtoRepository;
+	UsuarioRepository usuarioRepository;
 	
-	public List<ProdutoModel> listarProduto(){
+	public List<UsuarioModel> listarUsuario(){
 		
-		List<ProdutoModel> produtoModel = produtoRepository.findAll();//executa e consulta no banco de dados
+		List<UsuarioModel> usuarioModel = usuarioRepository.findAll();//executa e consulta no banco de dados
 		//1: O método findAll() é chamado.
     	//2: O Spring Data JPA gera queries SQL automaticamente. - Spring Data JPA(Java Persistense API) forcene interfaces e métodos prontos para realizar operaçõse com o banco de dados 
     	//3: O banco retorna os registros.
     	//4: Cada registro é convertido em um objeto ProdutoModel.
     	//5: A lista de objetos é atribuída à variável produtoModel.
 		
-		return produtoModel;
+		return usuarioModel;
 		
 	}
 	
-	public ProdutoModel salvarProduto(ProdutoModel produto) {
+	public UsuarioModel salvarUsuario(UsuarioModel usuario) {
 		
-		ProdutoModel produtoModel = produtoRepository.save(produto);//salva meus dados no banco
+		UsuarioModel usuarioModel = usuarioRepository.save(usuario);//salva meus dados no banco
 		
-		return produtoModel;
+		return usuarioModel;
 		
 	}
 	
-	public ProdutoModel buscarProdutoPorId(Long id){
+	public UsuarioModel buscarUsuarioPorId(Long id){
 		
 		try {//se der certo, retorno o objeto; se não, lanço uma execção e uma mensagem explicando o erro
-			ProdutoModel produtoModel = produtoRepository.findById(id).get();//busca usuário pelo ID
-			return produtoModel;
+			UsuarioModel usuarioModel = usuarioRepository.findById(id).get();//busca usuário pelo ID
+			return usuarioModel;
 		}catch(RuntimeException e) {
 			throw new RuntimeException("O produto com o ID " + id + " não existe!");//no bloco try, retorno é um objeto, já no bloco catch, retorno uma String - por isso do retorno genêrico do entpoint 
 		}
 		
 	}
 	
-	public List<ProdutoModel> buscarProdutoPorNome(String nome){
+	public List<UsuarioModel> buscarUsuarioPorNome(String nome){
 		
-		List<ProdutoModel> produtoModel = produtoRepository.pesquisarPorNome(nome.trim().toUpperCase());//busca usuário pelo nome - trim() retira o espaço
+		List<UsuarioModel> usuarioModel = usuarioRepository.pesquisarPorNome(nome.trim().toUpperCase());//busca usuário pelo nome - trim() retira o espaço
 		
-		return produtoModel;
+		return usuarioModel;
 		
 	}
 	
 	public void deletarProduto(Long id) {
 		
-		if(!produtoRepository.existsById(id)) {//se usuário com tal id não existir, então lanço uma exceção
+		if(!usuarioRepository.existsById(id)) {//se usuário com tal id não existir, então lanço uma exceção
 			throw new RuntimeException("O produto com o ID " + id + " não existe!");
 		}else {
-			produtoRepository.deleteById(id);//deleta meu usuário no banco, através do ID
+			usuarioRepository.deleteById(id);//deleta meu usuário no banco, através do ID
 		}
 		
 	}
