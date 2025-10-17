@@ -20,7 +20,7 @@ import javax.persistence.Table;
 
 @Entity
 @SequenceGenerator(name="seq_fornecedor", sequenceName="seq_fornecedor", allocationSize = 1, initialValue = 1)/*oame lógico do gerador; nome do gerador no banco de dados; aloca de 1 em 1; primeiro valor da sequência*/
-@Table(name = "fornecedor_model")//indica para qual tabela no banco de dados esta classe entidade está mapeanda (no caso, ela corresponde a tabela "produto_model" no banco de dados)
+@Table(name = "fornecedor_model")//indica para qual tabela no banco de dados esta classe entidade está mapeanda (no caso, ela corresponde a tabela "fornecedor_model" no banco de dados)
 public class FornecedorModel implements Serializable /*padrão do java*/{
 	
 	private static final long serialVersionUID = 1L; //padrão do java
@@ -32,6 +32,11 @@ public class FornecedorModel implements Serializable /*padrão do java*/{
 	private String telefone;
 	private String cnpj;
 	private String cidade;
+	private String estado;
+	private String bairro;
+	private String logradouro;
+	private String numero;
+	private String cep;
 
 	public Long getId() {
 		return id;
@@ -71,6 +76,46 @@ public class FornecedorModel implements Serializable /*padrão do java*/{
 
 	public void setCidade(String cidade) {
 		this.cidade = cidade;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	public String getBairro() {
+		return bairro;
+	}
+
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
+
+	public String getLogradouro() {
+		return logradouro;
+	}
+
+	public void setLogradouro(String logradouro) {
+		this.logradouro = logradouro;
+	}
+
+	public String getNumero() {
+		return numero;
+	}
+
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
+
+	public String getCep() {
+		return cep;
+	}
+
+	public void setCep(String cep) {
+		this.cep = cep;
 	}
 
 }

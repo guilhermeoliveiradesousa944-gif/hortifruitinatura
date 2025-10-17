@@ -1,6 +1,7 @@
 package projeto.maven.springboot.hortifruti.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,8 +20,8 @@ import javax.persistence.Table;
  * */
 
 @Entity
-@SequenceGenerator(name="seq_usuario", sequenceName="seq_usuario", allocationSize = 1, initialValue = 1)/*oame lógico do gerador; nome do gerador no banco de dados; aloca de 1 em 1; primeiro valor da sequência*/
-@Table(name = "usuario_model")//indica para qual tabela no banco de dados esta classe entidade está mapeanda (no caso, ela corresponde a tabela "produto_model" no banco de dados)
+@SequenceGenerator(name="seq_usuario", sequenceName="seq_usuario", allocationSize = 1, initialValue = 1)/*nome lógico do gerador; nome do gerador no banco de dados; aloca de 1 em 1; primeiro valor da sequência*/
+@Table(name = "usuario_model")//indica para qual tabela no banco de dados esta classe entidade está mapeanda (no caso, ela corresponde à tabela "usuario_model" no banco de dados)
 public class UsuarioModel implements Serializable /*padrão do java*/{
 	
 	private static final long serialVersionUID = 1L; //padrão do java
@@ -30,8 +31,11 @@ public class UsuarioModel implements Serializable /*padrão do java*/{
 	private Long id;
 	private int idade;
 	private String nome;
+	private String sobrenome;
 	private String sexo;
 	private String cpf;
+	private String rg;
+	private LocalDate dataNascimento;
 
 	public Long getId() {
 		return id;
@@ -47,6 +51,14 @@ public class UsuarioModel implements Serializable /*padrão do java*/{
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public String getSobrenome() {
+		return sobrenome;
+	}
+
+	public void setSobrenome(String sobrenome) {
+		this.sobrenome = sobrenome;
 	}
 
 	public int getIdade() {
@@ -71,6 +83,22 @@ public class UsuarioModel implements Serializable /*padrão do java*/{
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+
+	public String getRg() {
+		return rg;
+	}
+
+	public void setRg(String rg) {
+		this.rg = rg;
+	}
+
+	public LocalDate getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setDataNascimento(LocalDate dataNascimento) {
+		this.dataNascimento = dataNascimento;
 	}
 
 }

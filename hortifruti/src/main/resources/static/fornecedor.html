@@ -1,318 +1,323 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Cadastro de Fornecedores</title>
 
 <!-- Bootstrap CSS -->
 <link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-	crossorigin="anonymous">
-
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  crossorigin="anonymous">
 </head>
 <body class="container mt-5">
 
-	<a href="index.html" class="btn btn-outline-secondary mb-3">← Voltar</a><!-- a tag <a> cria um link navegável -->
+  <a href="index.html" class="btn btn-outline-secondary mb-3">← Voltar</a>
+  <h1 class="mb-4">CADASTRO DE FORNECEDORES</h1>
 
-	<h1 class="mb-4">CADASTRO DE FORNECEDORES:</h1>
+  <!-- Formulário -->
+  <form id="formFornecedor" class="mb-5">
+    <div class="row g-3">
 
-	<!-- Bootstrap JS -->
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-		crossorigin="anonymous"></script>
+      <div class="col-md-1">
+        <input type="text" id="id" class="form-control" placeholder="ID" readonly>
+      </div>
 
+      <div class="col-md-3">
+        <input type="text" id="nome" class="form-control" placeholder="Nome" required>
+      </div>
 
-	<!-- TODAS AS CLASSES BOOTSTRAP DESTE INDEX SÃO CLASSES RESPONSIVAS -->
+      <div class="col-md-2">
+        <input type="text" id="telefone" class="form-control" placeholder="(DDD) 99999-9999" required>
+      </div>
 
-	<!-- div é um conteiner
-    - label descreve o campo input
-    - input é um campo de entrada
-    - o for vincula o label ao campo de entreda com mesmo nome (id) -->
+      <div class="col-md-3">
+        <input type="text" id="cnpj" class="form-control" placeholder="CNPJ 00.000.000/0000-00" required>
+      </div>
 
-	<!-- Formulário de Cadastro -->
-	<form id="formFornecedor" class="mb-2 mb-md-4 mb-lg-5">
-		<div class="row g-3 mb-2 mb-md-3 mb-lg-4">
-			<div class="col-12 col-sm-6 col-md-2 col-lg-2">
-				<input type="text" class="form-control" id="id" readonly="readonly"
-					placeholder="ID automático">
-			</div>
-			<div class="col-12 col-sm-6 col-md-2 col-lg-3">
-				<input type="text" id="nome" class="form-control" placeholder="Nome"
-					required>
-			</div>
-			<div class="col-lg-2">
-				<input type="text" id="telefone" class="form-control"
-					placeholder="Telefone (DDD) 99999-9999"
-					pattern="^\(\d{2}\)\s?\d{5}-\d{4}$" required>
-			</div>
-			<div class="col-lg-3">
-				<input type="text" id="cnpj" class="form-control"
-					placeholder="CNPJ 00.000.000/0000-00"
-					pattern="^\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}$" required>
-			</div>
-			<div class="col-12 col-sm-6 col-md-2 col-lg-2">
-				<input type="text" id="cidade" class="form-control" placeholder="Cidade"
-					required>
-			</div>
-			<div class="row mt-2 mt-md-3">
-				<div class="col-12 d-grid gap-2 d-md-flex justify-content-md-start">
-					<button type="button" class="btn btn-primary"
-						onclick="salvarFornecedor()">Salvar</button>
-					<button type="button" class="btn btn-secondary"
-						onclick="document.getElementById('formFornecedor').reset();">Novo</button>
-					<!-- esse reset limpa os campos do formulário -->
-					<button type="button" class="btn btn-success"
-						data-bs-toggle="modal" data-bs-target="#modalPesquisar">Pesquisar</button>
-					<!-- chama a tela modal -->
-					<button type="button" class="btn btn-danger"
-						onclick="botaoDeletarTelaInicial()">Deletar</button>
-				</div>
+      <div class="col-md-3">
+        <select id="estado" class="form-select" required>
+          <option value="">Selecione o estado</option>
+          <option>AC</option><option>AL</option><option>AP</option><option>AM</option>
+          <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
+          <option>GO</option><option>MA</option><option>MT</option><option>MS</option>
+          <option>MG</option><option>PA</option><option>PB</option><option>PR</option>
+          <option>PE</option><option>PI</option><option>RJ</option><option>RN</option>
+          <option>RS</option><option>RO</option><option>RR</option><option>SC</option>
+          <option>SP</option><option>SE</option><option>TO</option>
+        </select>
+      </div>
 
-				<!-- TELA MODAL -->
-				<div class="modal fade" id="modalPesquisar" tabindex="-1"
-					aria-labelledby="exampleModalLabel" aria-hidden="true">
-					<div class="modal-dialog modal-dialog-centered modal-lg">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="exampleModalLabel">Buscar por
-									Fornecedor</h5>
-								<button type="button" class="btn-close" data-bs-dismiss="modal"
-									aria-label="Close"></button>
-							</div>
-							<div class="modal-body">
-								<form>
-									<div class="mb-2 mb-md-3">
-										<label for="nomeBuscar" class="col-form-label">Nome:</label> <input
-											type="text" class="form-control" id="nomeBuscar">
-									</div>
-									<div class="d-grid d-md-flex justify-content-md-start mb-2 mb-md-3">
-										<button type="button" class="btn btn-success"
-											onclick="buscarFornecedor()">Buscar</button>
-									</div>
-								</form>
+      <div class="col-md-3">
+        <input type="text" id="cidade" class="form-control" placeholder="Cidade" required>
+      </div>
 
-								<div id="divTabelaDados"></div>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary"
-									data-bs-dismiss="modal">Fechar</button>
-							</div>
-						</div>
-					</div>
-				</div>
+      <div class="col-md-3">
+        <input type="text" id="bairro" class="form-control" placeholder="Bairro" required>
+      </div>
 
-			</div>
-		</div>
-	</form>
+      <div class="col-md-3">
+        <input type="text" id="logradouro" class="form-control" placeholder="Logradouro" required>
+      </div>
 
-	<!-- Tabela de Produtos -->
-	<div id="divTabelaDados" class="table-responsive mt-3 mt-md-4"
-		style="max-height: 60vh; overflow-y: auto;">
-		<table class="table table-striped" id="tabelaDados">
-			<thead class="table-light">
-				<tr>
-					<th>ID</th>
-					<th>Nome</th>
-					<th>Telefone</th>
-					<th>CNPJ</th>
-					<th>Cidade</th>
-					<th>Ações</th>
-				</tr>
-			</thead>
-			<tbody>
-				<!-- Linhas serão adicionadas dinamicamente -->
-			</tbody>
-		</table>
-	</div>
+      <div class="col-md-2">
+        <input type="text" id="numero" class="form-control" placeholder="Número" required>
+      </div>
 
+      <div class="col-md-2">
+        <input type="text" id="cep" class="form-control" placeholder="CEP 00000-000" required>
+      </div>
+    </div>
 
-	<!-- jQuery -->
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-		crossorigin="anonymous"></script>
-	<!-- jQuery me permite escrever comandos em javascript com menos código -->
+    <!-- Botões -->
+    <div class="mt-4 d-flex flex-wrap gap-2">
+      <button type="button" class="btn btn-primary" onclick="salvarFornecedor()">Salvar</button>
+      <button type="button" class="btn btn-secondary" onclick="document.getElementById('formFornecedor').reset();">Novo</button>
+      <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalPesquisar">Pesquisar</button>
+      <button type="button" class="btn btn-danger" onclick="botaoDeletarTelaInicial()">Deletar</button>
+    </div>
+  </form>
 
-	<script type="text/javascript">
-	
-	function salvarFornecedor() { //acionado pelo botão SALVAR
+  <!-- Modal -->
+  <div class="modal fade" id="modalPesquisar" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Buscar Fornecedor</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="text" id="nomeBuscar" class="form-control mb-3" placeholder="Digite o nome">
+          <button type="button" class="btn btn-success mb-3" onclick="buscarFornecedor()">Buscar</button>
+          <div id="divTabelaDados"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-		var id = $("#id").val(); //"#id" é o id do meu input ID - val() resgata o valor contido dentro deste input
-		var nome = $("#nome").val(); //"#nome" é o id do meu input NOME - val() resgata o valor contido dentro deste input
-		var telefone = $("#telefone").val(); //"#tipo" é o id do meu input TIPO - val() resgata o valor contido dentro deste input
-		var cnpj = $("#cnpj").val(); //"#preco" é o id do meu input PRECO - val() resgata o valor contido dentro deste input
-		var cidade = $("#cidade").val(); //"#quantidade" é o id do meu input QUANTIDADE - val() resgata o valor contido dentro deste input
-		
-		
-		if (nome == null || nome.trim() == '') {//validação para verificar se o nome está nulo ou se está vazio
-			$("#nome").focus();//foca no campo
-			alert("Informe o nome do fornecedor!");
-			return;
-		}
+  <!-- Tabela -->
+  <div id="divTabelaDados" class="table-responsive mt-3" style="max-height: 60vh; overflow-y: auto;">
+    <table class="table table-striped" id="tabelaDados">
+      <thead class="table-light">
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Telefone</th>
+          <th>CNPJ</th>
+          <th>Estado</th>
+          <th>Cidade</th>
+          <th>Bairro</th>
+          <th>Logradouro</th>
+          <th>Número</th>
+          <th>CEP</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
 
-		if (telefone == null || telefone.trim() == '') {//validação para verificar se o tipo está nula ou se está vazio
-			$("#telefone").focus();//foca no campo
-			alert("Informe o telefone do fornecedor!");
-			return;
-		}
-		
-		if (cnpj == null || cnpj.trim() == '') {//validação para verificar se preço está nula ou se está vazio
-			$("#cnpj").focus();//foca no campo
-			alert("Informe o CNPJ do fornecedor!");
-			return;
-		}
-		
-		if (cidade == null || cidade.trim() == '') {//validação para verificar se a quantidade está nula ou se está vazio
-			$("#cidade").focus();//foca no campo
-			alert("Informe a cidade do fornecedor!");
-			return;
-		}
-		
+  <!-- jQuery + Bootstrap -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
-		/*AJAX é uma técnica que permite que uma página web se comunique com o servidor, em segundo plano, e por isso 
-		a página não recarrega, e as informações chegam na mesma*/
-		//ajax é uma receita de bolo:
-		$.ajax({ //chamada AJAX com jQuery
-			method : "POST", //por se tratar do endpoint salvar, que é um do tipo POST
-			url : "fornecedor/salvar", //mapeamento do meu endpoint
-			data : JSON.stringify({//converte os dados de JS para JSON, para serem enviados no corpo requisição feita ao endpoint 
-				id : id,//1 -parâmtros do objeto : 2 - valor do formulário
-				nome : nome,
-				telefone : telefone,
-				cnpj : cnpj,
-				cidade : cidade
-			}),
-			contentType : "application/json; charset=utf-8",//tipo dos dados
-			success : function(response) {//esse response, é o retorno do meu endpoint "salvar"
-				$("#id").val(response.id);//"#id" é o id do meu input ID - val(com este campo preenchido) escreve o valor do parâmetro na tela
-				alert("Dados cadastrados com sucesso!"); 
-			}
-		}).fail(
-				function(xhr, status, errorThrow) {//xhr: traz detalhes da resposta; status: status http; errorthrow: mensagem de erro
-					alert("Erro! Não conseguimos salvar os dados: "
-							+ xhr.responseText);
-				});
+  <script>
+    $(document).ready(function(){
+      $('#telefone').mask('(00) 00000-0000');
+      $('#cnpj').mask('00.000.000/0000-00');
+      $('#cep').mask('00000-000');
+    });
 
-		/*O objetivo final é que, ao clicar no botão "salvar", este chame uma função JS, que possui um ajax, que irá capturar os dados 
-		do formulário, depois irá convertê-los para json, para então os enviar, no corpo da requisição, para o endpoint "salvar"; 
-		este por sua vez, recebe o json, converte-o para um objeto, em seguida conecta-se ao banco de dados e salva aquele objeto;
-		por último, meu endpoint retorna a este - que antes será traduzido para json pelo @ResponseBody, para o ajax, no parâmetro 
-		"response" do método "function()"; e será este mesmo ajax, o responsável por colocar os dados na tela. 
-		*/ 
+    function salvarFornecedor() {
 
-	}
-	
-	function buscarFornecedor() {//acionado pelo botão BUSCAR da tela modal
-		
-		var nome = $("#nomeBuscar").val();//"#nomeBuscar" é o id do meu input NOME da tela modal - val() resgata o valor contido dentro deste input
-		
-		if (nome != null && nome.trim() != '') {//validação para verificar se o nome está nulo ou se está vazio
-			
-		$.ajax(	
-			{ //chamada AJAX com jQuery
-				method : "GET", //por se tratar do endpoint buscarPeloNome, que é um do tipo GET
-				url : "fornecedor/buscarPeloNome", //mapeamento do meu endpoint
-				data : "nome=" + nome,// "nome" é o nome do parâmetro do endponint "buscarPeloNome" - nome é o valor da variável js 
-				//como é um GET, os parâmtros não precisam ser convertidos para json, mas passão como query string na url;
-				success : function(response) {//se der certo, será enviada a resposta
-					$("#tabelaDados > tbody > tr").remove();//entra na tebela, depois na linha, e limpa os dados lá estiverem sendo exibidos 
-					$("#modalPesquisar").modal("hide");//esconde o modal quando eu clico no botão BUSCAR
-					
-					for (var i = 0; i < response.length; i++) {//como o endpoint "buscarPeloNome" retorna uma lista, devo percorre-la
-					    $("#tabelaDados > tbody").append(//entro no corpo da tabela e escrevo linhas e colunas
-					        "<tr id='idLinha'>" + //na linha...
-					        	"<td>" + response[i].id + "</td>" + //na 1° coluna: coloco o id do produto
-					            "<td>" + response[i].nome + "</td>" + //na 2° coluna: coloco o nome do produto
-					            "<td>" + response[i].telefone + "</td>" + //na 3° coluna: coloco a categoria do produto
-					            "<td>" + response[i].cnpj + "</td>" + //na 4° coluna: coloco o preco do produto
-					            "<td>" + response[i].cidade + "</td>" + //na 5° coluna: coloco a unidade do produto
-					            "<td>" +
-					                "<button type='button' class='btn btn-primary btn-sm me-2' onclick='colocarEmEdicao(" + response[i].id + ")'>Ver</button>" + //na 6° coluna: coloco o botão VER
-					                "<button type='button' class='btn btn-danger btn-sm' onclick='deletarFornecedor(" + response[i].id + ")'>Deletar</button>" + //também na 6° coluna: coloco o botão DELETAR
-					            "</td>" +
-					        "</tr>"
-					    );
-					}
+      var id = $("#id").val();
+      var nome = $("#nome").val();
+      var telefone = $("#telefone").val();
+      var cnpj = $("#cnpj").val();
+      var estado = $("#estado").val();
+      var cidade = $("#cidade").val();
+      var bairro = $("#bairro").val();
+      var logradouro = $("#logradouro").val();
+      var numero = $("#numero").val();
+      var cep = $("#cep").val();
 
-				}
-			}).fail(
-			function(xhr, status, errorThrow) {//xhr: traz detalhes da resposta; status: status http; errorthrow: mensagem de erro
-				alert("Erro ao buscar fornecedor pelo nome!: "
-						+ xhr.responseText);
-			});
-		}
+      // Validações completas:
+      if (nome == null || nome.trim() == '') {
+        $("#nome").focus();
+        alert("Informe o nome do fornecedor!");
+        return;
+      }
 
-	}
-	
-	function colocarEmEdicao(id) {//chamado pelo botão VER
+      if (telefone == null || telefone.trim() == '') {
+        $("#telefone").focus();
+        alert("Informe o telefone do fornecedor!");
+        return;
+      }
 
-		$.ajax({ //chamada AJAX com jQuery
-			method : "GET", //por se tratar do método buscarPeloId, que é um do tipo GET
-			url : "fornecedor/buscarPorId", //mapeamento do meu endpoint
-			data : "id=" + id, //"id" é o nome do parâmetro do endponint "buscarPeloId" - id é o valor do parâmtro da função js
-			//como é um GET, os parâmtros não precisam ser convertidos para json, mas passão como query string na url;
-			success : function(response) {//esse response, é o retorno do meu endpoint "salvar"
-				$("#id").val(response.id); //"#id" é o id do meu input ID - val(com este campo preenchido) escreve o valor do parâmetro na tela  
-				$("#nome").val(response.nome); //val() - se estiver vazio, pega os valores dos campos da tela; porém se estiver carregando um parâmtro com ele, acaba por inserir seu valor nos campos da tela
-				$("#telefone").val(response.telefone);
-				$("#cnpj").val(response.cnpj);
-				$("#cidade").val(response.cidade); 
+      if (cnpj == null || cnpj.trim() == '') {
+        $("#cnpj").focus();
+        alert("Informe o CNPJ do fornecedor!");
+        return;
+      }
 
-			}
+      if (estado == null || estado.trim() == '') {
+        $("#estado").focus();
+        alert("Selecione o estado do fornecedor!");
+        return;
+      }
 
-		}).fail(function(xhr, status, errorThrow) {//xhr: traz detalhes da resposta; status: status http; errorthrow: mensagem de erro
-			alert("Erro ao buscar fornecedor pelo id!" + xhr.responseText);
-		});
-	}
-	
-	function deletarFornecedor(id) {//chamado pelo botão DELETAR da tela modal
+      if (cidade == null || cidade.trim() == '') {
+        $("#cidade").focus();
+        alert("Informe a cidade do fornecedor!");
+        return;
+      }
 
-		if (confirm("Deseja mesmo deletar?")) {//exibe uma confirmação na tela 
+      if (bairro == null || bairro.trim() == '') {
+        $("#bairro").focus();
+        alert("Informe o bairro do fornecedor!");
+        return;
+      }
 
-			$.ajax({ //chamada AJAX com jQuery
-				method : "DELETE", //por se tratar do método "deletar"", que é um do tipo DELETE
-				url : "fornecedor/deletar", //mapeamento do meu endpoint
-				data : "id=" + id, //"id" é o nome do parâmetro do endponint "DELETAR" - id é o valor do parâmtro da função js
-				//como é um GET, os parâmtros não precisam ser convertidos para json, mas passão como query string na url;
-				success : function(response) {//esse response, é o retorno do meu endpoint "salvar"
-					alert(response);//exibe o response/retorno na tela - neste caso, meu retorno é uma String
+      if (logradouro == null || logradouro.trim() == '') {
+        $("#logradouro").focus();
+        alert("Informe o logradouro do fornecedor!");
+        return;
+      }
 
-					$('#idLinha').remove();//remove a linha que contém os dados do usuário recém deletado impressos na tela
-					
-				}
+      if (numero == null || numero.trim() == '') {
+        $("#numero").focus();
+        alert("Informe o número do fornecedor!");
+        return;
+      }
 
-			}).fail(
-					function(xhr, status, errorThrow) {//xhr: traz detalhes da resposta; status: status http; errorthrow: mensagem de erro
-						alert("Erro ao deletar fornecedor pelo ID!"
-								+ xhr.responseText);
-					});
+      if (cep == null || cep.trim() == '') {
+        $("#cep").focus();
+        alert("Informe o CEP do fornecedor!");
+        return;
+      }
 
-		}
+      // Envio via AJAX
+      $.ajax({
+        method: "POST",
+        url: "fornecedor/salvar",
+        data: JSON.stringify({
+          id: id,
+          nome: nome,
+          telefone: telefone,
+          cnpj: cnpj,
+          estado: estado,
+          cidade: cidade,
+          bairro: bairro,
+          logradouro: logradouro,
+          numero: numero,
+          cep: cep
+        }),
+        contentType: "application/json; charset=utf-8",
+        success: function(response) {
+          $("#id").val(response.id);
+          alert("Fornecedor salvo com sucesso!");
+        },
+        error: function(xhr) {
+          alert("Erro ao salvar: " + xhr.responseText);
+        }
+      });
+    }
 
-	}
-	
-	function botaoDeletarTelaInicial() {//chamado pelo botão DELETAR da tela inicial
-		var id = $("#id").val();//"#id" é o id do meu input ID - val() resgata o valor contido dentro deste input
+    function buscarFornecedor() {
+      var nome = $("#nomeBuscar").val();
+      if (nome == null || nome.trim() == '') {
+        alert("Informe um nome para buscar!");
+        return;
+      }
 
-		if (id != null && id.trim() != '') {//verifica se o id é diferente de nulo e se não está vazio
-			deletarFornecedor(id);//chamo a função "deletarUsuario(id)" para deletar o usuário para min 
-			document.getElementById('formFornecedor').reset();//limpa os inputs do formulário
-		} else {
-			alert("Não há nenhum fornecedor a ser deletado!");
-		}
+      $.ajax({
+        method: "GET",
+        url: "fornecedor/buscarPeloNome",
+        data: "nome=" + nome,
+        success: function(response) {
+          $("#tabelaDados > tbody").empty();
+          $("#modalPesquisar").modal("hide");
 
-	}
-	
-	</script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script> <!-- Importa a biblioteca jQuery Mask, que adiciona automaticamente a formatação nos campos enquanto o usuário digita. -->
-	<script>
-		$(document).ready(function() {//Função que só executa o código depois que a página for carregada completamente.
-			$('#telefone').mask('(00) 00000-0000');//Aplica a máscara ao campo com id="telefone". Assim, o usuário só digita os números, e a máscara insere os parênteses e o traço automaticamente.
-			$('#cnpj').mask('00.000.000/0000-00');//Faz o mesmo para o campo de CNPJ, aplicando a formatação padrão brasileira.
-		});
-	</script>
+          for (var i = 0; i < response.length; i++) {
+            $("#tabelaDados > tbody").append(
+              "<tr>" +
+              "<td>"+response[i].id+"</td>" +
+              "<td>"+response[i].nome+"</td>" +
+              "<td>"+response[i].telefone+"</td>" +
+              "<td>"+response[i].cnpj+"</td>" +
+              "<td>"+response[i].estado+"</td>" +
+              "<td>"+response[i].cidade+"</td>" +
+              "<td>"+response[i].bairro+"</td>" +
+              "<td>"+response[i].logradouro+"</td>" +
+              "<td>"+response[i].numero+"</td>" +
+              "<td>"+response[i].cep+"</td>" +
+              "<td>" +
+                "<button class='btn btn-primary btn-sm me-2' onclick='colocarEmEdicao("+response[i].id+")'>Editar</button>" +
+                "<button class='btn btn-danger btn-sm' onclick='deletarFornecedor("+response[i].id+")'>Deletar</button>" +
+              "</td></tr>"
+            );
+          }
+        },
+        error: function(xhr) {
+          alert("Erro ao buscar fornecedor: " + xhr.responseText);
+        }
+      });
+    }
+
+    function colocarEmEdicao(id) {
+      $.ajax({
+        method: "GET",
+        url: "fornecedor/buscarPorId",
+        data: "id=" + id,
+        success: function(r) {
+          $("#id").val(r.id);
+          $("#nome").val(r.nome);
+          $("#telefone").val(r.telefone);
+          $("#cnpj").val(r.cnpj);
+          $("#estado").val(r.estado);
+          $("#cidade").val(r.cidade);
+          $("#bairro").val(r.bairro);
+          $("#logradouro").val(r.logradouro);
+          $("#numero").val(r.numero);
+          $("#cep").val(r.cep);
+        },
+        error: function(xhr) {
+          alert("Erro ao buscar fornecedor: " + xhr.responseText);
+        }
+      });
+    }
+
+    function deletarFornecedor(id) {
+      if (confirm("Deseja realmente deletar este fornecedor?")) {
+        $.ajax({
+          method: "DELETE",
+          url: "fornecedor/deletar",
+          data: "id=" + id,
+          success: function(response) {
+            alert(response);
+            buscarFornecedor();
+          },
+          error: function(xhr) {
+            alert("Erro ao deletar: " + xhr.responseText);
+          }
+        });
+      }
+    }
+
+    function botaoDeletarTelaInicial() {
+      var id = $("#id").val();
+      if (id == null || id.trim() == '') {
+        alert("Nenhum fornecedor selecionado para exclusão!"); 
+        return;
+      }
+      deletarFornecedor(id);
+      document.getElementById('formFornecedor').reset();
+    }
+  </script>
 
 </body>
 </html>
